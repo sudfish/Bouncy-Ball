@@ -1,4 +1,5 @@
 # Build Files
+.cache/
 run.sh
 /build
 
