@@ -1,6 +1,6 @@
 #pragma once
 
-#include "global.hpp"
+#include "Ball.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <string>
 
@@ -17,6 +17,8 @@ namespace bouncyball {
             sf::Clock clock;
 
             bool paused = false;
+
+            Ball *ball;
 
             void HandleInput();
             void Update();

@@ -1,4 +1,7 @@
 #include "Game.hpp"
+#include "Ball.hpp"
+#include "global.hpp"
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include <SFML/Window/WindowStyle.hpp>
@@ -12,15 +15,13 @@ namespace bouncyball {
                 title, 
                 sf::Style::Close | sf::Style::Titlebar
             );
+        ball = new Ball(BALL_RADIUS, BALL_COLOR);
     } 
 
     void Game::Run(){
         float new_time, frame_time, interpolation;
         float current_time = this->clock.getElapsedTime().asSeconds();
         float accumulator = 0.0f;
-        
-        int fps, frame_count;
-        float fps_timer = 0.0f;
 
         while(this->window.isOpen()){
             new_time = this->clock.getElapsedTime().asSeconds();
@@ -70,7 +71,9 @@ namespace bouncyball {
     }
 
     void Game::Draw(float dt){
-        return;
+        this->window.clear();
+        this->window.draw(this->ball->ball_shape);
+        this->window.display();
     }
     
     void Game::Quit(){
