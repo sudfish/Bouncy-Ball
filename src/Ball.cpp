@@ -9,6 +9,8 @@
 
 namespace bouncyball {
     Ball::Ball(float radius, sf::Color color){
+        this->sound_buffer.loadFromFile(BALL_SOUND_PATH);
+        this->sound.setBuffer(this->sound_buffer);
         this->ball_shape.setFillColor(color);
         this->ball_shape.setRadius(radius);
         this->ball_shape.setOrigin(
@@ -20,6 +22,7 @@ namespace bouncyball {
 
     void Ball::Update(float dt){
         this->HandleCollisions();
+        this->HandleSounds();
         this->Move(dt);
     }
 
@@ -61,6 +64,33 @@ namespace bouncyball {
                     this->ball_shape.getRadius(),
                     this->ball_shape.getPosition().y
                     );
+        }
+    }
+
+    void Ball::HandleSounds(){
+        if(
+                CollisionHandler::SouthWallCollision(this->ball_shape) &&
+                this->velocity.y < BALL_SOUND_VELOCITY_LIMIT
+          ){
+            this->sound.play();
+        }
+        if(
+                CollisionHandler::NorthWallCollision(this->ball_shape) &&
+                this->velocity.y > BALL_SOUND_VELOCITY_LIMIT
+          ){
+            this->sound.play();
+        }
+        if(
+                CollisionHandler::EastWallCollision(this->ball_shape) &&
+                this->velocity.x < BALL_SOUND_VELOCITY_LIMIT
+          ){
+            this->sound.play();
+        }
+        if(
+                CollisionHandler::WestWallCollision(this->ball_shape) &&
+                this->velocity.x > BALL_SOUND_VELOCITY_LIMIT
+          ){
+            this->sound.play();
         }
     }
 }

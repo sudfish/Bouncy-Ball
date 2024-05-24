@@ -1,6 +1,8 @@
 #pragma once
 
 #include "global.hpp"
+#include <SFML/Audio/Sound.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -20,9 +22,13 @@ namespace bouncyball {
         bool has_gravity = true;
         float damping = BALL_DAMPING_FACTOR;
 
+        sf::Sound sound;
+        sf::SoundBuffer sound_buffer;
+
         void ApplyGravity(float dt);
         void ToggleGravity();
         void HandleCollisions();
+        void HandleSounds();
         void Move(float dt);
     };
 }
