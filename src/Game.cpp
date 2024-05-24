@@ -67,7 +67,7 @@ namespace bouncyball {
     }
 
     void Game::Update(){
-        return;
+        this->ball->Update(this->dt);
     }
 
     void Game::Draw(float dt){
