@@ -3,6 +3,7 @@
 #include "global.hpp"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Window/Event.hpp>
+#include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include <SFML/Window/WindowStyle.hpp>
 #include <string>
@@ -29,10 +30,10 @@ namespace bouncyball {
             frame_time = frame_time > 0.25f ? 0.25f : frame_time;
 
             current_time = new_time;
-            accumulator += frame_time;
+            if(!this->paused) accumulator += frame_time;
 
-            while(accumulator >= this->dt){
-                this->HandleInput();
+            this->HandleInput();
+            while(accumulator >= this->dt && !this->paused){
                 this->Update();
                 accumulator -= this->dt;
             }
@@ -44,25 +45,34 @@ namespace bouncyball {
 
     void Game::HandleInput(){
         sf::Event event;
+
         while (this->window.pollEvent(event)) {
-            switch (event.type) {
-                case sf::Event::Closed:
-                    this->Quit();
-                    break;
+            this->HandleGeneralInput(event);
+        }
+    }
 
-                case sf::Event::KeyPressed:
-                    switch (event.key.code) {
-                        case sf::Keyboard::Q:
-                            this->Quit();
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
+    void Game::HandleGeneralInput(sf::Event &event){
+        switch (event.type) {
+            case sf::Event::Closed:
+                this->Quit();
+                break;
 
-                default:
-                    break;
-            }
+            case sf::Event::KeyPressed:
+                switch (event.key.code) {
+                    case sf::Keyboard::Q:
+                        this->Quit();
+                        break;
+
+                    case sf::Keyboard::P:
+                        this->paused ? this->Resume() : this->Pause();
+                        break;
+                    default:
+                        break;
+                }
+                break;
+
+            default:
+                break;
         }
     }
 
@@ -74,6 +84,14 @@ namespace bouncyball {
         this->window.clear();
         this->window.draw(this->ball->ball_shape);
         this->window.display();
+    }
+
+    void Game::Pause(){
+        this->paused = true;
+    }
+
+    void Game::Resume(){
+        this->paused = false;
     }
     
     void Game::Quit(){

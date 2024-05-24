@@ -2,6 +2,7 @@
 
 #include "Ball.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Window/Event.hpp>
 #include <string>
 
 namespace bouncyball {
@@ -21,8 +22,11 @@ namespace bouncyball {
             Ball *ball;
 
             void HandleInput();
+            void HandleGeneralInput(sf::Event &event);
             void Update();
             void Draw(float dt);
+            void Pause();
+            void Resume();
             void Quit();
     };
 }
