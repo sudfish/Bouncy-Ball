@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Ball.hpp"
+#include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Text.hpp>
 #include <SFML/Window/Event.hpp>
 #include <string>
 
@@ -16,6 +18,11 @@ namespace bouncyball {
             std::string title;
             sf::RenderWindow window;
             sf::Clock clock;
+
+            sf::Font font;
+
+            sf::Text damping_text;
+            sf::Text gravity_text;
 
             bool paused = false;
 

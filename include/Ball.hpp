@@ -15,15 +15,15 @@ namespace bouncyball {
         Ball(float radius, sf::Color color);
         sf::CircleShape ball_shape;
 
+        bool has_gravity = true;
+        bool has_damping = true;
+
         void Update(float dt);
         void ToggleGravity();
         void ToggleDamping();
     private:
         sf::Vector2f velocity = sf::Vector2f(20.0f, 0.0f);
         sf::Vector2f gravity = sf::Vector2f(0.0f, BALL_GRAVITY_FACTOR);
-
-        bool has_gravity = true;
-        bool has_damping = true;
 
         float damping = BALL_DAMPING_FACTOR;
 

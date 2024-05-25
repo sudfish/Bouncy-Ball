@@ -11,6 +11,14 @@
 namespace bouncyball {
     Game::Game(int width, int height, std::string title){
         srand(time(NULL));
+        this->font.loadFromFile(WIN_FONT);
+        this->damping_text.setFont(this->font);
+        this->gravity_text.setFont(this->font);
+        this->damping_text.setCharacterSize(WIN_FONT_SIZE);
+        this->gravity_text.setCharacterSize(WIN_FONT_SIZE);
+        this->damping_text.setString("(D)amping");
+        this->gravity_text.setString("(G)ravity");
+        this->damping_text.setPosition(WIN_WIDTH - this->damping_text.getGlobalBounds().width, 0);
         this->window.create(
                 sf::VideoMode(width, height),
                 title, 
@@ -68,7 +76,9 @@ namespace bouncyball {
                         break;
 
                     case sf::Keyboard::G:
-                        if(!this->paused) this->ball->ToggleGravity();
+                        if(!this->paused){
+                            this->ball->ToggleGravity();
+                        } 
                         break;
 
                     case sf::Keyboard::D:
@@ -85,11 +95,15 @@ namespace bouncyball {
     }
 
     void Game::Update(){
+        this->ball->has_gravity ? this->gravity_text.setFillColor(WIN_FONT_COLOR_ON) : this->gravity_text.setFillColor(WIN_FONT_COLOR_OFF);
+        this->ball->has_damping ? this->damping_text.setFillColor(WIN_FONT_COLOR_ON) : this->damping_text.setFillColor(WIN_FONT_COLOR_OFF);
         this->ball->Update(this->dt);
     }
 
     void Game::Draw(float dt){
         this->window.clear();
+        this->window.draw(this->damping_text);
+        this->window.draw(this->gravity_text);
         this->window.draw(this->ball->ball_shape);
         this->window.display();
     }
