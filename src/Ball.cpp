@@ -28,11 +28,27 @@ namespace bouncyball {
 
     void Ball::ApplyGravity(float dt){
         this->velocity.y -= this->gravity.y * dt;
+    }
+
+    void Ball::ApplyDamping(float dt){
         this->velocity *= (1.0f - this->damping * dt);
     }
 
+    void Ball::ToggleGravity(){
+        this->has_gravity = !this->has_gravity;
+    }
+
+    void Ball::ToggleDamping(){
+        this->has_damping = !this->has_damping;
+    }
+
+    void Ball::ChangeColor(sf::Color color){
+        this->ball_shape.setFillColor(color);
+    }
+
     void Ball::Move(float dt){
-        this->ApplyGravity(dt);
+        if(this->has_gravity) this->ApplyGravity(dt);
+        if(this->has_damping) this->ApplyDamping(dt);
         this->ball_shape.move(this->velocity);
     }
 

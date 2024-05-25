@@ -66,6 +66,14 @@ namespace bouncyball {
                     case sf::Keyboard::P:
                         this->paused ? this->Resume() : this->Pause();
                         break;
+
+                    case sf::Keyboard::G:
+                        if(!this->paused) this->ball->ToggleGravity();
+                        break;
+
+                    case sf::Keyboard::D:
+                        if(!this->paused) this->ball->ToggleDamping();
+                        break;
                     default:
                         break;
                 }
