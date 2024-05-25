@@ -14,7 +14,8 @@ const sf::Color WIN_FONT_COLOR_ON = sf::Color::Green;
 const sf::Color WIN_FONT_COLOR_OFF = sf::Color::Red;
 
 const int BALL_RADIUS = 20;
-const sf::Color BALL_COLOR = sf::Color::Red;
+const sf::Color BALL_COLOR = sf::Color::Blue;
+const sf::Color BALL_COLOR_GRABBED = sf::Color::Red;
 const float BALL_GRAVITY_FACTOR = -9.18f;
 const float BALL_DAMPING_FACTOR = 0.5f;
 const std::string BALL_SOUND_PATH = "../assets/collision.wav";

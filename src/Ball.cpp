@@ -5,6 +5,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Mouse.hpp>
 
 
 namespace bouncyball {
@@ -20,7 +21,8 @@ namespace bouncyball {
         this->ball_shape.setPosition(sf::Vector2f(int(WIN_WIDTH/2), int(WIN_HEIGHT/2)));
     }
 
-    void Ball::Update(float dt){
+    void Ball::Update(float dt, sf::RenderWindow &window){
+        if(this->is_tracking) this->TrackMouse(window);
         this->HandleCollisions();
         this->HandleSounds();
         this->Move(dt);
@@ -46,10 +48,24 @@ namespace bouncyball {
         this->ball_shape.setFillColor(color);
     }
 
+    void Ball::ClearVelocity(){
+        this->velocity = sf::Vector2f(0.0f, 0.0f);
+    }
+
+    void Ball::TrackMouse(sf::RenderWindow &window){
+        sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
+        this->ball_shape.setPosition(mouse_pos.x, mouse_pos.y);
+    }
+
     void Ball::Move(float dt){
         if(this->has_gravity) this->ApplyGravity(dt);
         if(this->has_damping) this->ApplyDamping(dt);
         this->ball_shape.move(this->velocity);
+    }
+
+    void Ball::DragVelocity(sf::Vector2i prev_pos, sf::Vector2i curr_pos){
+        this->velocity.x = (curr_pos.x - prev_pos.x) * 0.2f;
+        this->velocity.y = (curr_pos.y - prev_pos.y) * 0.2f;
     }
 
     void Ball::HandleCollisions(){

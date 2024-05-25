@@ -1,9 +1,12 @@
 #include "Game.hpp"
 #include "Ball.hpp"
+#include "CollisionHandler.hpp"
 #include "global.hpp"
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
+#include <SFML/Window/Mouse.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include <SFML/Window/WindowStyle.hpp>
 #include <string>
@@ -56,6 +59,40 @@ namespace bouncyball {
 
         while (this->window.pollEvent(event)) {
             this->HandleGeneralInput(event);
+            switch (event.type) {
+                case sf::Event::MouseButtonPressed:
+                    switch(event.mouseButton.button) {
+                        case sf::Mouse::Left:
+                            if(CollisionHandler::MouseBallCollision(this->ball->ball_shape, sf::Mouse::getPosition(this->window))){
+                                this->prev_pos = sf::Mouse::getPosition(this->window);
+                                this->ball->is_tracking = true;
+                                this->ball->ClearVelocity();
+                                this->ball->ChangeColor(BALL_COLOR_GRABBED);
+                            }
+                            break;
+
+                        default:
+                            break;
+                    }
+                    break;
+                
+                case sf::Event::MouseButtonReleased:
+                    switch (event.mouseButton.button) {
+                        case sf::Mouse::Left:
+                            if(CollisionHandler::MouseBallCollision(this->ball->ball_shape, sf::Mouse::getPosition(this->window))){
+                                this->ball->is_tracking = false;
+                                this->ball->ChangeColor(BALL_COLOR);
+                                this->ball->DragVelocity(this->prev_pos, sf::Mouse::getPosition(this->window));
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
 
@@ -97,7 +134,7 @@ namespace bouncyball {
     void Game::Update(){
         this->ball->has_gravity ? this->gravity_text.setFillColor(WIN_FONT_COLOR_ON) : this->gravity_text.setFillColor(WIN_FONT_COLOR_OFF);
         this->ball->has_damping ? this->damping_text.setFillColor(WIN_FONT_COLOR_ON) : this->damping_text.setFillColor(WIN_FONT_COLOR_OFF);
-        this->ball->Update(this->dt);
+        this->ball->Update(this->dt, this->window);
     }
 
     void Game::Draw(float dt){

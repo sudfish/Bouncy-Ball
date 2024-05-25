@@ -17,4 +17,8 @@ namespace bouncyball {
     bool CollisionHandler::SouthWallCollision(sf::CircleShape &ball){
         return ball.getPosition().y+ball.getRadius() >= WIN_HEIGHT ? true : false; 
     }
+
+    bool CollisionHandler::MouseBallCollision(sf::CircleShape &ball, sf::Vector2i mouse_pos){
+        return ball.getGlobalBounds().contains(mouse_pos.x, mouse_pos.y);
+    }
 }

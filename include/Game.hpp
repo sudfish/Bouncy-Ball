@@ -4,6 +4,7 @@
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 #include <string>
 
@@ -27,6 +28,8 @@ namespace bouncyball {
             bool paused = false;
 
             Ball *ball;
+
+            sf::Vector2i prev_pos;
 
             void HandleInput();
             void HandleGeneralInput(sf::Event &event);
