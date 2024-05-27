@@ -26,7 +26,7 @@ namespace bouncyball {
         void ClearVelocity();
         void DragVelocity(sf::Vector2i prev_pos, sf::Vector2i curr_pos);
     private:
-        sf::Vector2f velocity = sf::Vector2f(20.0f, 0.0f);
+        sf::Vector2f velocity = sf::Vector2f(0.0f, 0.0f);
         sf::Vector2f gravity = sf::Vector2f(0.0f, BALL_GRAVITY_FACTOR);
 
         float damping = BALL_DAMPING_FACTOR;

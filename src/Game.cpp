@@ -79,11 +79,11 @@ namespace bouncyball {
                 case sf::Event::MouseButtonReleased:
                     switch (event.mouseButton.button) {
                         case sf::Mouse::Left:
-                            if(CollisionHandler::MouseBallCollision(this->ball->ball_shape, sf::Mouse::getPosition(this->window))){
-                                this->ball->is_tracking = false;
-                                this->ball->ChangeColor(BALL_COLOR);
+                            this->ball->ChangeColor(BALL_COLOR);
+                            if(this->ball->is_tracking){
                                 this->ball->DragVelocity(this->prev_pos, sf::Mouse::getPosition(this->window));
                             }
+                            this->ball->is_tracking = false;
                             break;
                         default:
                             break;
