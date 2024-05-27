@@ -21,7 +21,7 @@ A cooler example of a **_state machine_** design can be viewed in my [Flappy Bir
 
 ## Demo
 
-![Demo GIF](demo/demo.gif)
+![Demo GIF](demo/demo.GIF)
 
 ## Controls
 
